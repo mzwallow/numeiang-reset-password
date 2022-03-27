@@ -18,6 +18,7 @@
         password: fields.confirmNewPassword,
       }),
       referrerPolicy: 'no-referrer',
+      credentials: 'include' 
     });
 
     const json = await res.json();
