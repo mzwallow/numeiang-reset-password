@@ -1,17 +1,20 @@
 <script>
   import { page } from '$app/stores';
+  import '../../app.css';
 
-  let token = $page.params.token;
+  // let token = $page.params.token;
   let fields = { newPassword: '', confirmNewPassword: '' };
   let errors = { length: '', match: '' };
   let valid = false;
-  let result = null;
+  // let result = null;
 
   const resetPasswordHandler = async () => {
+    const token = $page.params.token;
+
     const res = await fetch('https://api.numeiang.app/users/reset-password', {
       method: 'POST',
       headers: new Headers({
-        Authorization: `Bearer ${token}`,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'appication/json',
       }),
       body: JSON.stringify({
@@ -21,8 +24,8 @@
       credentials: 'include' 
     });
 
-    const json = await res.json();
-    result = JSON.stringify(json);
+    // const json = await res.json();
+    // result = JSON.stringify(json);
   };
 
   const validatePassword = () => {
@@ -48,9 +51,9 @@
 </svelte:head>
 
 <main>
-  <form on:submit|preventDefault={resetPasswordHandler}>
-    <h1>Reset password</h1>
-    <div>
+  <form on:submit|preventDefault={resetPasswordHandler} class="flex flex-col w-96 mx-auto gap-4">
+    <h1 class="text-center text-4xl font-bold mt-5">Reset password</h1>
+    <div class="flex flex-col">
       <label for="newPassword">New password</label>
       <input
         type="password"
@@ -59,9 +62,10 @@
         bind:value={fields.newPassword}
         on:change={validatePassword}
         required
+        class="form-input rounded"
       />
     </div>
-    <div>
+    <div class="flex flex-col">
       <label for="confirmNewPassword">Confirm new password</label>
       <input
         type="password"
@@ -70,20 +74,28 @@
         bind:value={fields.confirmNewPassword}
         on:change={validatePassword}
         required
+        class="form-input rounded"
       />
     </div>
     <div>
       {#if errors.length !== ''}
-        <pre class="error">{errors.length}</pre>
+        <pre class="error text-red-600">{errors.length}</pre>
       {/if}
       {#if errors.match !== ''}
-        <pre class="error">{errors.match}</pre>
+        <pre class="error text-red-600">{errors.match}</pre>
       {/if}
     </div>
-    <button type="submit" on:click={resetPasswordHandler} disabled={!valid}>Submit</button>
+    <button 
+      type="submit" 
+      on:click={resetPasswordHandler} 
+      disabled={!valid} 
+      class="bg-blue-500 hover:bg-blue-700 hover:cursor-pointer text-white font-bold py-2 px-4 rounded"
+    >
+      Submit
+    </button>
   </form>
 
-  <code lang="json">{result}</code>
+  <!-- <code lang="json">{result}</code> -->
 </main>
 
 <style>
