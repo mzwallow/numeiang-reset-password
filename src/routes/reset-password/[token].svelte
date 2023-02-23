@@ -2,16 +2,18 @@
   import { page } from '$app/stores';
   import '../../app.css';
 
-  // let token = $page.params.token;
+  import Modal from './Modal.svelte';
+
+  let showModal = false;
+
   let fields = { newPassword: '', confirmNewPassword: '' };
   let errors = { length: '', match: '' };
   let valid = false;
-  // let result = null;
 
   const resetPasswordHandler = async () => {
     const token = $page.params.token;
 
-    const res = await fetch('https://api.numeiang.app/users/reset-password', {
+    const res = await fetch('https://api.numeiang.app/users/reset-password/', {
       method: 'POST',
       headers: new Headers({
         'Authorization': `Bearer ${token}`,
@@ -26,6 +28,8 @@
 
     // const json = await res.json();
     // result = JSON.stringify(json);
+
+    showModal = true;
   };
 
   const validatePassword = () => {
@@ -87,7 +91,6 @@
     </div>
     <button 
       type="submit" 
-      on:click={resetPasswordHandler} 
       disabled={!valid} 
       class="bg-blue-500 hover:bg-blue-700 hover:cursor-pointer text-white font-bold py-2 px-4 rounded"
     >
@@ -95,7 +98,9 @@
     </button>
   </form>
 
-  <!-- <code lang="json">{result}</code> -->
+  <Modal bind:showModal>
+    <h1 slot="header" class="text-2xl font-bold mb-2 text-center ">Success</h1>
+  </Modal>
 </main>
 
 <style>
