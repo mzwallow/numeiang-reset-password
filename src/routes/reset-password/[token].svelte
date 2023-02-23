@@ -13,7 +13,7 @@
   const resetPasswordHandler = async () => {
     const token = $page.params.token;
 
-    const res = await fetch('https://api.numeiang.app/users/reset-password/', {
+    const res = await fetch('https://api.numeiang.app/users/reset-password', {
       method: 'POST',
       headers: new Headers({
         'Authorization': `Bearer ${token}`,
